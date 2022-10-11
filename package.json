@@ -6,7 +6,6 @@
   "description": "auto generate web.config file, include proxy config",
   "author": "qianphong <qianphong@163.com>",
   "license": "MIT",
-  "funding": "https://github.com/sponsors/qianphong",
   "homepage": "https://github.com/qianphong/vite-plugin-web-config#readme",
   "repository": {
     "type": "git",
