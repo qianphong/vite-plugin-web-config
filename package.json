@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-web-config",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1-beta.0",
   "packageManager": "pnpm@7.12.0",
   "description": "auto generate web.config file, include proxy config",
   "author": "qianphong <qianphong@163.com>",
