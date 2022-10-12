@@ -2,7 +2,8 @@
 
 [![NPM version](https://img.shields.io/npm/v/vite-plugin-web-config?color=a1b858&label=)](https://www.npmjs.com/package/vite-plugin-web-config)
 
-Automatically generate web.config (IIS server config file) file with rewrite rules. Automatically configure vite server proxy in development mode.
+- Configure vite server proxy in development mode.
+- In build mode, it will generate `web.config` (IIS server config) file with rewrite rules in the `dist` directory.
 
 ## Install
 
@@ -73,6 +74,10 @@ After running `vite build`, the `web.config` file will be generated in the `dist
   </system.webServer>
 </configuration>
 ```
+
+## Example
+
+- [vite-vanilla-example](./example)
 
 ## License
 

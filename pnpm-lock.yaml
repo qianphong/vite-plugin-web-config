@@ -35,13 +35,13 @@ importers:
       vite: 3.1.2
       vitest: 0.23.4
 
-  examples/vanilla:
+  example:
     specifiers:
       typescript: ^4.6.4
       vite: ^3.1.0
-      vite-plugin-web-config: workspace:^0.0.0
+      vite-plugin-web-config: workspace:*
     dependencies:
-      vite-plugin-web-config: link:../..
+      vite-plugin-web-config: link:..
     devDependencies:
       typescript: 4.8.3
       vite: 3.1.2
