@@ -1,7 +1,7 @@
 import type { ConfigEnv, Plugin } from 'vite'
 import { loadEnv } from 'vite'
 import type { ProxyList } from './types'
-import { generateWebConfig } from './generate'
+import { generateWebConfig } from './config'
 import { createProxy, getParsedProxyConfig } from './proxy'
 
 export interface Options {
