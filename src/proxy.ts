@@ -11,8 +11,9 @@ const httpsRE = /^https:\/\//
  */
 export function createProxy(list: ProxyList = []) {
   const ret: ProxyTargetList = {}
-  for (const [prefix, target] of list) {
+  list.forEach(([prefix, target]) => {
     const isHttps = httpsRE.test(target)
+    if (!prefix.startsWith('/')) prefix = `/${prefix}`
 
     // https://github.com/http-party/node-http-proxy#options
     ret[prefix] = {
@@ -23,7 +24,7 @@ export function createProxy(list: ProxyList = []) {
       // https is require secure=false
       ...(isHttps ? { secure: false } : {}),
     }
-  }
+  })
   return ret
 }
 
@@ -31,7 +32,9 @@ export function getParsedProxyConfig(env: Record<string, string>): ProxyList {
   const proxyConfig = env.VITE_PROXY
   if (proxyConfig) {
     try {
-      return JSON.parse(proxyConfig)
+      const config = JSON.parse(proxyConfig)
+      if (Array.isArray(config)) return config
+      return []
       // eslint-disable-next-line @typescript-eslint/brace-style
     } catch (e) {
       console.error('VITE_PROXY parse failed, ignored.')

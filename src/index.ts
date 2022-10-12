@@ -1,4 +1,4 @@
-import type { Plugin } from 'vite'
+import type { ConfigEnv, Plugin } from 'vite'
 import { loadEnv } from 'vite'
 import type { ProxyList } from './types'
 import { generateWebConfig } from './generate'
@@ -21,17 +21,18 @@ export interface Options {
 export default function WebConfig(options: Options = {}): Plugin {
   const { proxy = [], output = 'web.config' } = options
 
-  function getProxyList() {
+  function getProxyList(mode = 'development') {
     if (proxy.length) return proxy
-    return getParsedProxyConfig(loadEnv('development', process.cwd()))
+    return getParsedProxyConfig(loadEnv(mode, process.cwd()))
   }
+
+  let env: ConfigEnv
 
   return {
     name: 'vite-plugin-web-config',
-    enforce: 'post',
-    config() {
-      const ProxyList = getProxyList()
-
+    config(_, _env) {
+      env = _env
+      const ProxyList = getProxyList(env.mode)
       if (ProxyList.length > 0) {
         return {
           server: {
@@ -41,9 +42,9 @@ export default function WebConfig(options: Options = {}): Plugin {
       }
     },
     buildEnd() {
-      if (output === false) return
+      if (output === false || env.command === 'serve') return
 
-      const ProxyList = getProxyList()
+      const ProxyList = getProxyList(env.mode)
       const webConfig = generateWebConfig(ProxyList)
       if (webConfig) {
         this.emitFile({
