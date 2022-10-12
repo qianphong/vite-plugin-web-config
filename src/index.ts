@@ -1,12 +1,12 @@
 import type { Plugin } from 'vite'
 import { loadEnv } from 'vite'
+import type { ProxyList } from './types'
 import { generateWebConfig } from './generate'
 import { createProxy, getParsedProxyConfig } from './proxy'
-import type { ProxyList } from './types'
 
 export interface Options {
   /**
-   * Proxy list
+   * Proxy list, config this will override the .env proxy configuration
    * @default []
    */
   proxy?: ProxyList

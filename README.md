@@ -34,13 +34,23 @@ export default {
 }
 ```
 
-Config proxy in your `.env` file:
+### Options
 
-```bash
+| Name   | Type                 | Default      | Description       |
+| ------ | -------------------- | ------------ | ----------------- |
+| proxy  | `[string, string][]` | `[]`         | Proxy list config |
+| output | `string \| false`    | `web.config` | Output file name. |
+
+> If provide `proxy` option, `.env` config will be ignored.  
+> When `output` is `false`, it will not generate `web.config` file.
+
+Except for the above options, you can also configure `VITE_PROXY` in `.env.*` file:
+
+```env
 VITE_PROXY = [["/basic-api","http://localhost:3000"]]
 ```
 
-In development mode, vite will automatically configure the proxy according to the configuration in the `.env` file.
+In development mode, vite will automatically configure the proxy according to the configuration in the `.env.*` file or `options.proxy`.
 
 ```ts
 // vite.config.ts
