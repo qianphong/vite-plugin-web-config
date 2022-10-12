@@ -1,13 +1,7 @@
 /**
  * Used to parse the .env.development proxy configuration
  */
-import type { ProxyOptions } from 'vite'
-
-type ProxyItem = [string, string]
-
-export type ProxyList = ProxyItem[]
-
-type ProxyTargetList = Record<string, ProxyOptions>
+import type { ProxyList, ProxyTargetList } from './types'
 
 const httpsRE = /^https:\/\//
 

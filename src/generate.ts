@@ -1,5 +1,5 @@
 import { Builder } from 'xml2js'
-import type { ProxyList } from './proxy'
+import type { ProxyList } from './types'
 
 export function generateWebConfig(rules: ProxyList) {
   const config = {
