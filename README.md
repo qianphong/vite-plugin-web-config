@@ -28,7 +28,8 @@ import WebConfig from 'vite-plugin-web-config'
 export default {
   plugins: [
     WebConfig({
-      // options
+      proxy: [['/api', 'http://localhost:3000']],
+      output: 'web.config',
     }),
   ],
 }
@@ -41,14 +42,15 @@ export default {
 | proxy  | `[string, string][]` | `[]`         | Proxy list config |
 | output | `string \| false`    | `web.config` | Output file name. |
 
-> If provide `proxy` option, `.env` config will be ignored.  
-> When `output` is `false`, it will not generate `web.config` file.
-
 Except for the above options, you can also configure `VITE_PROXY` in `.env.*` file:
 
 ```env
-VITE_PROXY = [["/basic-api","http://localhost:3000"]]
+VITE_PROXY = [["/api","http://localhost:3000"]]
 ```
+
+> Must be a valid JSON string.  
+> If provide `proxy` option, `.env.*` config will be ignored.  
+> When `output` is `false`, it will not generate `web.config` file.
 
 In development mode, vite will automatically configure the proxy according to the configuration in the `.env.*` file or `options.proxy`.
 
@@ -57,10 +59,10 @@ In development mode, vite will automatically configure the proxy according to th
 export default defineConfig({
   server: {
     proxy: {
-      '/basic-api': {
+      '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/basic-api/, ''),
+        rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },
@@ -70,14 +72,17 @@ export default defineConfig({
 After running `vite build`, the `web.config` file will be generated in the `dist` directory.
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
   <system.webServer>
     <rewrite>
       <rules>
-        <rule name="basic-api" stopProcessing="true">
-          <match url="^basic-api/(.*)" />
-          <action type="Rewrite" url="http://localhost:3000/{R:1}" />
+        <rule name="api_rule" stopProcessing="true">
+          <match url="api/(.*)"/>
+          <conditions logicalGrouping="MatchAll">
+            <add input="{REQUEST_URI}" pattern="api/(.*)"/>
+          </conditions>
+          <action type="Rewrite" url="http://localhost:3000/{R:1}" logRewrittenUrl="true"/>
         </rule>
       </rules>
     </rewrite>
