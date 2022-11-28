@@ -12,7 +12,9 @@ export function generateWebConfig(rules: ProxyList) {
                 {
                   // eslint-disable-next-line arrow-parens
                   rule: rules.map(rule => {
-                    const pattern = rule[0]
+                    const pattern = rule[0].startsWith('/')
+                      ? rule[0].slice(1)
+                      : rule[0]
                     const target = rule[1]
                     const p = `${pattern}/(.*)`
                     return {
